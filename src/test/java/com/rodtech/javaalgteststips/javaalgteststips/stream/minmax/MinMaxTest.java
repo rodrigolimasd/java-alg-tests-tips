@@ -28,4 +28,21 @@ public class MinMaxTest {
 
         assertEquals("Should be Alex", alex, minByAge);
     }
+
+    @Test
+    public void whenListIsOfPersonObjectThenMaxCanBeDoneUsingCustomComparatorThroughLambda() {
+        // given
+        Person alex = new Person("Alex", 23);
+        Person john = new Person("John", 40);
+        Person peter = new Person("Peter", 32);
+        List<Person> people = Arrays.asList(alex, john, peter);
+
+        // then
+        Person minByAge = people
+                .stream()
+                .max(Comparator.comparing(Person::getAge))
+                .orElseThrow(NoSuchElementException::new);
+
+        assertEquals("Should be Alex", john, minByAge);
+    }
 }

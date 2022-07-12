@@ -1,4 +1,4 @@
-package com.rodtech.javaalgteststips.javaalgteststips.stream.string;
+package com.rodtech.javaalgteststips.javaalgteststips.string;
 
 import org.junit.jupiter.api.Test;
 import java.util.List;

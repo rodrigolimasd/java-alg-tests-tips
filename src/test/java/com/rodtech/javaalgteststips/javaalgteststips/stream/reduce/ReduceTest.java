@@ -11,7 +11,7 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 public class ReduceTest {
 
     @Test
-    public void shouldSumAllAges() {
+    public void shouldSumWithBigDecimalAllAges() {
         // given
         var alex = new Person("Alex", 23);
         var john = new Person("John", 40);
@@ -25,5 +25,23 @@ public class ReduceTest {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         assertEquals("Should be 95", BigDecimal.valueOf(95), sumAges);
+    }
+
+    @Test
+    public void shouldSumAllAges() {
+        // given
+        var alex = new Person("Alex", 23);
+        var john = new Person("John", 40);
+        var peter = new Person("Peter", 32);
+        var people = Arrays.asList(alex, john, peter);
+
+        // then
+        var sumAges = people
+                .stream()
+                .map(Person::getAge)
+                .reduce(Integer::sum)
+                .orElseThrow();
+
+        assertEquals("Should be 95", 95, sumAges);
     }
 }

@@ -12,7 +12,7 @@ public class StringTest {
     @Test
     public void shouldReturnLinesOfString() {
         // given
-        String multilineString = "I'm \n \n your \n father.";
+        var multilineString = "I'm \n \n your \n father.";
         List<String> lines = multilineString.lines()
                 .filter(line -> !line.isBlank())
                 .map(String::strip)
@@ -24,7 +24,7 @@ public class StringTest {
     @Test
     public void shouldReturnLinesOfString2() {
         // given
-        String multilineString = "I'm \n \n your \n father.";
+        var multilineString = "I'm \n \n your \n father.";
         List<String> lines = multilineString.lines()
                 .filter(Predicate.not(String::isBlank))
                 .map(String::strip)

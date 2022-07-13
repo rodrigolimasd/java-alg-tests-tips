@@ -2,7 +2,6 @@ package com.rodtech.javaalgteststips.javaalgteststips.stream.iterate;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,7 +12,7 @@ public class IterateTest {
     @Test
     public void shouldInterateAndCreateNewStrem(){
         // given
-        List<Integer> result = Stream.iterate(1, i -> i <= 20, i -> 2 * i)
+        var result = Stream.iterate(1, i -> i <= 20, i -> 2 * i)
                 .collect(Collectors.toList());
 
         // then

@@ -58,13 +58,20 @@ public class GroupingByTest {
        var priceByLevels = prodPriceLevel.stream()
                 .collect(Collectors.groupingBy(ProductPriceLevel::getLevel));
 
-       var actualPriceMacbook = priceByLevels.get(1).stream()
+       var actualPriceMacbookL1 = priceByLevels.get(1).stream()
                .filter(p-> p.getProduct().getCode().equals(12345681L))
                .findFirst().orElseThrow();
 
+        var actualPriceMacbookL2 = priceByLevels.get(2).stream()
+                .filter(p-> p.getProduct().getCode().equals(12345681L))
+                .findFirst().orElseThrow();
+
        // then
-        assertThat(actualPriceMacbook.getSellingPrice()).isEqualTo(BigDecimal.valueOf(13748.9));
-        assertThat(actualPriceMacbook.getProfitMargin()).isEqualTo(BigDecimal.valueOf(71.5));
+        assertThat(actualPriceMacbookL1.getSellingPrice()).isEqualTo(BigDecimal.valueOf(13748.9));
+        assertThat(actualPriceMacbookL1.getProfitMargin()).isEqualTo(BigDecimal.valueOf(71.5));
+        assertThat(actualPriceMacbookL2.getSellingPrice()).isEqualTo(BigDecimal.valueOf(14998.8));
+        assertThat(actualPriceMacbookL2.getProfitMargin()).isEqualTo(BigDecimal.valueOf(78.0));
+
 
     }
 

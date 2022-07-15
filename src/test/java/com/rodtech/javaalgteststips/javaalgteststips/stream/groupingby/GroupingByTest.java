@@ -77,17 +77,15 @@ public class GroupingByTest {
 
         products.forEach(p->
             levels.forEach(l-> {
-                var percent = l * 10.0 / 100;
-                var price = p.getSuggestedPrice().doubleValue();
-                var priceLevel = price + (price * percent);
-                var margin = p.getSuggestedMargin().doubleValue();
-                var marginLevel = margin + (margin * percent);
+                var percent = BigDecimal.valueOf(l).multiply(BigDecimal.TEN).divide(BigDecimal.valueOf(100));
+                var priceLevel = p.getSuggestedPrice().add(p.getSuggestedPrice().multiply(percent));
+                var marginLevel = p.getSuggestedMargin().add(p.getSuggestedMargin().multiply(percent));
 
                 list.add(ProductPriceLevel.builder()
                         .level(l)
                         .product(p)
-                        .sellingPrice(BigDecimal.valueOf(priceLevel))
-                        .profitMargin(BigDecimal.valueOf(marginLevel))
+                        .sellingPrice(priceLevel)
+                        .profitMargin(marginLevel)
                         .build());
             })
         );

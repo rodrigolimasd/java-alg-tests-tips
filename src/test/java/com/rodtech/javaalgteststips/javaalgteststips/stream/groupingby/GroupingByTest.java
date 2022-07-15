@@ -13,6 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @Log4j2
@@ -57,18 +58,13 @@ public class GroupingByTest {
        var priceByLevels = prodPriceLevel.stream()
                 .collect(Collectors.groupingBy(ProductPriceLevel::getLevel));
 
-       // then
-        assertEquals("Macbook level 1 price should be 13748.9 ",
-                priceByLevels.get(1).stream()
-                        .filter(p-> p.getProduct().getCode().equals(12345681L))
-                        .findFirst().orElseThrow().getSellingPrice(), BigDecimal.valueOf(13748.9)
-        );
-        assertEquals("Macbook level 1 margin should be 71.5 ",
-                priceByLevels.get(1).stream()
-                        .filter(p-> p.getProduct().getCode().equals(12345681L))
-                        .findFirst().orElseThrow().getProfitMargin(), BigDecimal.valueOf(71.5)
-        );
+       var actualPriceMacbook = priceByLevels.get(1).stream()
+               .filter(p-> p.getProduct().getCode().equals(12345681L))
+               .findFirst().orElseThrow();
 
+       // then
+        assertThat(actualPriceMacbook.getSellingPrice()).isEqualTo(BigDecimal.valueOf(13748.9));
+        assertThat(actualPriceMacbook.getProfitMargin()).isEqualTo(BigDecimal.valueOf(71.5));
 
     }
 

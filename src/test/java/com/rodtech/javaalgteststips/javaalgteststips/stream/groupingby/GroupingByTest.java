@@ -58,20 +58,22 @@ public class GroupingByTest {
        var priceByLevels = prodPriceLevel.stream()
                 .collect(Collectors.groupingBy(ProductPriceLevel::getLevel));
 
-       var actualPriceMacbookL1 = priceByLevels.get(1).stream()
-               .filter(p-> p.getProduct().getCode().equals(12345681L))
-               .findFirst().orElseThrow();
-
-        var actualPriceMacbookL2 = priceByLevels.get(2).stream()
-                .filter(p-> p.getProduct().getCode().equals(12345681L))
-                .findFirst().orElseThrow();
-
        // then
-        assertThat(actualPriceMacbookL1.getSellingPrice()).isEqualTo(BigDecimal.valueOf(13748.9));
-        assertThat(actualPriceMacbookL1.getProfitMargin()).isEqualTo(BigDecimal.valueOf(71.5));
-        assertThat(actualPriceMacbookL2.getSellingPrice()).isEqualTo(BigDecimal.valueOf(14998.8));
-        assertThat(actualPriceMacbookL2.getProfitMargin()).isEqualTo(BigDecimal.valueOf(78.0));
+        assertThat(priceByLevels).extractingByKey(1)
+                .extracting(p-> p.stream().filter(a-> a.getProduct().getCode().equals(12345681L))
+                        .findFirst().orElseThrow())
+                .matches(p-> p.getSellingPrice().equals(BigDecimal.valueOf(13748.9)),
+                        "Selling price should be 13748.9")
+                .matches(p-> p.getProfitMargin().equals(BigDecimal.valueOf(71.5)),
+                        "Margin should be 71.5");
 
+        assertThat(priceByLevels).extractingByKey(2)
+                .extracting(p-> p.stream().filter(a-> a.getProduct().getCode().equals(12345681L))
+                        .findFirst().orElseThrow())
+                .matches(p-> p.getSellingPrice().equals(BigDecimal.valueOf(14998.8)),
+                        "Selling price should be 14998.8")
+                .matches(p-> p.getProfitMargin().equals(BigDecimal.valueOf(78.0)),
+                        "Margin should be 71.5");
 
     }
 
